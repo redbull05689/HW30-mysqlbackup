@@ -1,0 +1,51 @@
+version: '3.3'
+services:
+  master:
+    image: mysql:8.0.15
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'user'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'password'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '33061:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db1:/var/lib/mysql
+      - ./config/mysql-master/:/etc/mysql/conf.d/
+      - .bet-4560-4974c3.dmp:/home/
+    #   - .some_script.sh:/tmp/some_script.sh
+    # command: /bin/bash -x /tmp/some_script.sh
+  slave:
+    image: mysql:8.0.15
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'user'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'password'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '33062:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db2:/var/lib/mysql
+      - ./config/mysql-slave/:/etc/mysql/conf.d/
+# Names our volume
+volumes:
+  my-db1:
+  my-db2:
