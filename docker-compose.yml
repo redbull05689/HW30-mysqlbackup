@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   master:
-    image: mysql:8.0.15
+    image: mysql:5.7
     restart: always
     environment:
       MYSQL_DATABASE: 'db'
@@ -22,8 +22,9 @@ services:
       - my-db1:/var/lib/mysql
       - ./config/mysql-master/:/etc/mysql/conf.d/
       - .bet-4560-4974c3.dmp:/home/
-    #   - .some_script.sh:/tmp/some_script.sh
-    # command: /bin/bash -x /tmp/some_script.sh
+      - .some_script.sh:/home/some_script.sh
+    command: /bin/bash -x /home/some_script.sh
+    
   slave:
     image: mysql:8.0.15
     restart: always
